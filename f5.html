@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-Hans">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>F5 Counter 抢位报名</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="topbar" aria-label="活动状态">
+        <div>
+          <p class="eyebrow">F5 · Counter Seat Rush</p>
+          <h1>F5 Counter 抢位系统</h1>
+        </div>
+        <div class="live-pill" aria-live="polite">
+          <span></span>
+          Counter 开放中
+        </div>
+      </section>
+
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="drop-label">学生到 counter 报名，老师现场帮他锁位</div>
+          <h2>先到 counter，先选好位。</h2>
+          <p>Counter 老师从 B5 / B6 选择座位，填写学生资料，生成 F5 电子票后 WhatsApp 发给学生。</p>
+        </div>
+        <div class="rush-card" aria-label="倒数计时">
+          <span>本轮 counter 保留倒数</span>
+          <strong id="countdown">09:59</strong>
+          <small>资料未完成前，座位只属于暂选状态</small>
+        </div>
+      </section>
+
+      <section class="dashboard">
+        <aside class="control-panel">
+          <div class="section-title">
+            <span>选择课室</span>
+            <strong id="room-capacity">--</strong>
+          </div>
+          <div class="room-tabs" id="roomTabs" role="tablist" aria-label="课室选择"></div>
+
+          <div class="stats-grid">
+            <div>
+              <span>剩余座位</span>
+              <strong id="availableCount">--</strong>
+            </div>
+            <div>
+              <span>已锁定</span>
+              <strong id="takenCount">--</strong>
+            </div>
+          </div>
+
+          <div class="meter" aria-label="报名进度">
+            <div class="meter-top">
+              <span>抢位热度</span>
+              <strong id="soldPercent">--%</strong>
+            </div>
+            <div class="meter-track"><span id="meterFill"></span></div>
+          </div>
+
+          <div class="legend" aria-label="座位状态说明">
+            <div><span class="dot available"></span>可选择</div>
+            <div><span class="dot selected"></span>暂选中</div>
+            <div><span class="dot premium"></span>黄金互动区</div>
+            <div><span class="dot taken"></span>已锁位</div>
+          </div>
+
+          <div class="booking-box">
+            <span>Counter 暂选座位</span>
+            <strong id="selectedSeat">还没选择</strong>
+            <div class="student-form" aria-label="学生资料">
+              <label>
+                姓名
+                <input id="studentName" autocomplete="name" placeholder="例：Tan Jia Xin" />
+              </label>
+              <label>
+                WhatsApp 电话
+                <input id="studentPhone" autocomplete="tel" inputmode="tel" placeholder="例：+60 12-345 6789" />
+              </label>
+              <label>
+                Student ID
+                <input id="studentId" autocomplete="off" placeholder="可留空" />
+              </label>
+              <label>
+                Email
+                <input id="studentEmail" autocomplete="email" inputmode="email" placeholder="可留空" />
+              </label>
+            </div>
+            <button id="lockButton" type="button" disabled>生成电子票</button>
+            <p id="bookingHint">Counter 老师先选座位，再填写姓名和 WhatsApp 电话。</p>
+          </div>
+        </aside>
+
+        <section class="seat-area" aria-label="座位图">
+          <div class="stage-row" id="stageRow"></div>
+          <div class="screen-glow"></div>
+          <div class="room-name" id="roomName">B5</div>
+          <div class="seat-map-wrap">
+            <div class="seat-map" id="seatMap"></div>
+          </div>
+        </section>
+      </section>
+
+      <section class="ticker" aria-label="报名动态">
+        <div id="tickerTrack"></div>
+      </section>
+
+      <section class="ticket-panel" id="ticketPanel" aria-label="电子票" hidden>
+        <div class="ticket-copy">
+          <p class="eyebrow">Counter Issued E-Ticket</p>
+          <h2>电子票已生成</h2>
+          <p>把电子票 WhatsApp 发给学生，学生只收到座位确认，不进入选座系统。</p>
+        </div>
+        <div class="ticket-card" id="ticketCard">
+          <div class="qr-mark" id="qrMark" aria-hidden="true"></div>
+          <div class="ticket-details">
+            <span>Booking ID</span>
+            <strong id="ticketId">--</strong>
+            <dl>
+              <div>
+                <dt>座位</dt>
+                <dd id="ticketSeat">--</dd>
+              </div>
+              <div>
+                <dt>姓名</dt>
+                <dd id="ticketName">--</dd>
+              </div>
+              <div>
+                <dt>电话</dt>
+                <dd id="ticketPhone">--</dd>
+              </div>
+            </dl>
+            <a id="whatsAppLink" class="whatsapp-button" href="#" target="_blank" rel="noopener">发送给学生 WhatsApp</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script>
+      window.courseConfig = {
+        label: "F5",
+        bookingPrefix: "F5",
+        storageKey: "f5LockedSeats-v1",
+        roomKeys: ["B1", "B3", "B5", "B6"]
+      };
+    </script>
+    <script src="app.js?v=split-2"></script>
+  </body>
+</html>
